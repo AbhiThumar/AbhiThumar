@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhi Thumar | Data Science & Machine Learning Systems</title>
+    <meta name="description" content="Portfolio of Abhi Thumar - Data Science & ML Engineering candidate (MSc Coventry, BTech DAIICT). Specialized in PySpark, XGBoost, Explainable AI (SHAP), Time-Series, and Big Data Analytics.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #060911;
+            --bg-surface: #0b101d;
+            --bg-card: rgba(16, 23, 41, 0.75);
+            --bg-card-hover: rgba(24, 34, 58, 0.85);
+            --border-glow: rgba(0, 242, 254, 0.2);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            
+            --cyan-accent: #00f2fe;
+            --blue-accent: #4facfe;
+            --violet-accent: #a855f7;
+            --emerald-accent: #10b981;
+            --amber-accent: #f59e0b;
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Global scrollbar hiding for desktop & mobile */
+        html, body, * {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        ::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 242, 254, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 85% 65%, rgba(168, 85, 247, 0.04) 0%, transparent 45%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        /* Utility classes */
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Ambient Glowing Background Orbs */
+        .ambient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.16;
+        }
+
+        .ambient-orb-1 {
+            top: 5%;
+            left: 5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--cyan-accent), transparent 70%);
+            animation: floatOrb1 20s ease-in-out infinite alternate;
+        }
+
+        .ambient-orb-2 {
+            bottom: 15%;
+            right: 10%;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, var(--violet-accent), transparent 70%);
+            animation: floatOrb2 24s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatOrb1 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(70px, 50px) scale(1.15); }
+            100% { transform: translate(-40px, 90px) scale(0.92); }
+        }
+
+        @keyframes floatOrb2 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-60px, -70px) scale(1.12); }
+            100% { transform: translate(50px, -40px) scale(1.05); }
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--cyan-accent) 0%, var(--blue-accent) 35%, var(--violet-accent) 70%, var(--cyan-accent) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 7s linear infinite;
+        }
+
+        @keyframes textShimmer {
+            to { background-position: 200% center; }
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            color: var(--cyan-accent);
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.1);
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--cyan-accent);
+            box-shadow: 0 0 8px var(--cyan-accent);
+            animation: pulse-dot 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(0.8); }
+        }
+
+        /* Top HUD Bar */
+        .hud-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(6, 9, 17, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 12px 0;
+        }
+
+        .hud-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .brand-logo span {
+            color: var(--cyan-accent);
+        }
+
+        .hud-metrics {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .hud-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hud-stat-val {
+            color: var(--cyan-accent);
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--cyan-accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 160px 0 90px;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .hero-tag {
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+
+        .hero-desc {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            max-width: 620px;
+        }
+
+        .hero-desc strong {
+            color: var(--text-main);
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan-accent), var(--blue-accent));
+            color: #030712;
+            box-shadow: 0 4px 20px rgba(0, 242, 254, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(0, 242, 254, 0.4);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: var(--border-subtle);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 242, 254, 0.08);
+            border-color: var(--cyan-accent);
+            color: var(--cyan-accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-icon {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+            text-decoration: none;
+        }
+
+        .btn-icon:hover {
+            color: var(--cyan-accent);
+            border-color: var(--cyan-accent);
+            background: rgba(0, 242, 254, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .btn-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Interactive Terminal Simulator */
+        .terminal-card {
+            background: #090d16;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(0, 242, 254, 0.05);
+            overflow: hidden;
+            font-family: var(--font-mono);
+        }
+
+        .terminal-header {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+
+        .terminal-title {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            letter-spacing: 0.05em;
+        }
+
+        .terminal-body {
+            padding: 20px;
+            min-height: 280px;
+            max-height: 340px;
+            overflow-y: auto;
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .t-line {
+            margin-bottom: 8px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .t-prompt {
+            color: var(--cyan-accent);
+            user-select: none;
+        }
+
+        .t-cmd {
+            color: #f8fafc;
+            font-weight: 600;
+        }
+
+        .t-res {
+            color: var(--text-muted);
+            padding-left: 18px;
+        }
+
+        .t-accent { color: var(--blue-accent); }
+        .t-success { color: var(--emerald-accent); }
+        .t-warn { color: var(--amber-accent); }
+        .t-purple { color: var(--violet-accent); }
+
+        .terminal-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(15, 23, 42, 0.5);
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--cyan-accent);
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            width: 100%;
+        }
+
+        /* Section Layouts */
+        .section {
+            padding: 90px 0;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .section-header {
+            margin-bottom: 48px;
+        }
+
+        .section-module-tag {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--cyan-accent);
+            letter-spacing: 0.15em;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-top: 6px;
+            max-width: 650px;
+        }
+
+        /* Module 0X1 - Philosophy & Impact Chart */
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 32px;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--border-glow);
+            background: var(--bg-card-hover);
+            transform: translateY(-3px);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--cyan-accent);
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        .card-title {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* SVG Chart Dashboard */
+        .chart-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 28px;
+            position: relative;
+        }
+
+        .chart-header {
+            margin-bottom: 24px;
+            padding-right: 360px;
+        }
+
+        .chart-header-left {
+            width: 100%;
+        }
+
+        .chart-metrics-toggle {
+            position: absolute;
+            top: 28px;
+            right: 28px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .metric-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .metric-btn.active, .metric-btn:hover {
+            background: rgba(0, 242, 254, 0.12);
+            border-color: var(--cyan-accent);
+            color: var(--cyan-accent);
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 220px;
+            overflow: visible;
+        }
+
+        /* Module 0X2 - Stack Matrix */
+        .stack-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .stack-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: var(--transition-smooth);
+        }
+
+        .stack-item:hover {
+            border-color: rgba(0, 242, 254, 0.3);
+            transform: translateY(-2px);
+            background: var(--bg-card-hover);
+        }
+
+        .stack-icon-pill {
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .pill-ds { background: rgba(0, 242, 254, 0.1); color: var(--cyan-accent); border: 1px solid rgba(0, 242, 254, 0.2); }
+        .pill-eng { background: rgba(79, 172, 254, 0.1); color: var(--blue-accent); border: 1px solid rgba(79, 172, 254, 0.2); }
+        .pill-viz { background: rgba(168, 85, 247, 0.1); color: var(--violet-accent); border: 1px solid rgba(168, 85, 247, 0.2); }
+        .pill-meth { background: rgba(16, 185, 129, 0.1); color: var(--emerald-accent); border: 1px solid rgba(16, 185, 129, 0.2); }
+
+        .stack-info h4 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .stack-info p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        /* Module 0X3 - Production Systems (Projects) */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .project-card:hover {
+            border-color: rgba(0, 242, 254, 0.35);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 24px rgba(0, 242, 254, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .project-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .project-date {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .project-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .project-summary {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-bottom: 24px;
+        }
+
+        .project-impact-box {
+            background: rgba(6, 9, 17, 0.6);
+            border: 1px dashed rgba(0, 242, 254, 0.25);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--cyan-accent);
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .project-footer {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-top: 1px solid var(--border-subtle);
+            padding-top: 20px;
+        }
+
+        .link-text {
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition-fast);
+        }
+
+        .link-text:hover {
+            color: var(--cyan-accent);
+        }
+
+        /* Modal styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition-smooth);
+            padding: 24px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--cyan-accent);
+            box-shadow: 0 0 40px rgba(0, 242, 254, 0.15);
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 36px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .modal-close:hover {
+            color: #fff;
+            border-color: var(--cyan-accent);
+        }
+
+        /* Module 0X4 - Growth Timeline */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--cyan-accent), var(--violet-accent), var(--border-subtle));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 44px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-node {
+            position: absolute;
+            left: 11px;
+            top: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--bg-base);
+            border: 3px solid var(--cyan-accent);
+            box-shadow: 0 0 12px var(--cyan-accent);
+        }
+
+        .timeline-date {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: var(--cyan-accent);
+            margin-bottom: 4px;
+        }
+
+        .timeline-role {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .timeline-org {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .timeline-bullets {
+            list-style: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .timeline-bullets li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 6px;
+        }
+
+        .timeline-bullets li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--cyan-accent);
+        }
+
+        /* Certifications grid */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-top: 48px;
+        }
+
+        .cert-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .cert-title {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .cert-issuer {
+            font-size: 0.82rem;
+            color: var(--cyan-accent);
+            font-family: var(--font-mono);
+        }
+
+        /* Module 0X5 - Connect Section */
+        .connect-box {
+            background: linear-gradient(135deg, rgba(16, 23, 41, 0.9), rgba(11, 16, 29, 0.95));
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 242, 254, 0.05);
+            border-radius: 16px;
+            padding: 56px;
+            text-align: center;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .connect-email-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(6, 9, 17, 0.8);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 10px 20px;
+            margin: 28px 0;
+            font-family: var(--font-mono);
+            font-size: 1rem;
+        }
+
+        .copy-btn {
+            background: rgba(0, 242, 254, 0.12);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: var(--cyan-accent);
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            transition: var(--transition-fast);
+        }
+
+        .copy-btn:hover {
+            background: var(--cyan-accent);
+            color: #000;
+        }
+
+        /* Toast Alert */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #090d16;
+            border: 1px solid var(--cyan-accent);
+            color: var(--cyan-accent);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition-smooth);
+            z-index: 2000;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            padding: 32px 0;
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: var(--text-dim);
+        }
+
+        /* Mobile Hamburger & Drawer Nav */
+        .mobile-menu-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            color: var(--cyan-accent);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: rgba(6, 9, 17, 0.96);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--cyan-accent);
+            padding: 24px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 99;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+        }
+
+        .mobile-nav-overlay.active {
+            display: flex;
+        }
+
+        .mobile-nav-link {
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.92rem;
+            padding: 12px;
+            border-radius: 6px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition-fast);
+        }
+
+        .mobile-nav-link:hover {
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--cyan-accent);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: flex;
+            }
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+            .hero {
+                padding: 110px 0 60px;
+            }
+            .projects-grid, .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+            .chart-header {
+                padding-right: 0;
+            }
+            .chart-metrics-toggle {
+                position: static;
+                margin-top: 14px;
+                flex-wrap: wrap;
+            }
+            .connect-box {
+                padding: 36px 24px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2.15rem;
+            }
+            .hero-desc {
+                font-size: 0.98rem;
+            }
+            .hud-metrics {
+                display: none;
+            }
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .connect-email-bar {
+                flex-direction: column;
+                width: 100%;
+                word-break: break-all;
+                font-size: 0.88rem;
+            }
+            .timeline::before {
+                left: 10px;
+            }
+            .timeline-node {
+                left: 1px;
+            }
+            .timeline-item {
+                padding-left: 32px;
+            }
+            .stack-filters {
+                overflow-x: auto;
+                padding-bottom: 8px;
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+            .metric-btn {
+                white-space: nowrap;
+            }
+            .modal-card {
+                padding: 24px 18px;
+            }
+        }
+
+        /* Mouse Spotlight Overlay on Cards */
+        /* Mouse Spotlight Overlay & 3D Tilt on Cards */
+        .card, .project-card, .stack-item, .terminal-card, .connect-box {
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            will-change: transform;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s, box-shadow 0.35s;
+        }
+
+        .card::before, .project-card::before, .stack-item::before, .connect-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 242, 254, 0.14), transparent 45%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .card:hover::before, .project-card:hover::before, .stack-item:hover::before, .connect-box:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover, .project-card:hover {
+            border-color: rgba(0, 242, 254, 0.45);
+            box-shadow: 0 20px 44px rgba(0, 0, 0, 0.6), 0 0 32px rgba(0, 242, 254, 0.15);
+        }
+
+        /* Terminal Scanline Overlay */
+        .terminal-card::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(0, 242, 254, 0.05), transparent);
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        @keyframes scanline {
+            0% { top: -100%; }
+            100% { top: 200%; }
+        }
+
+        /* Button Shimmer Sheen */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+            transform: rotate(30deg) translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn-primary:hover::after {
+            transform: rotate(30deg) translateX(100%);
+        }
+
+        /* SVG Line Stroke Drawing */
+        @keyframes strokeDraw {
+            0% { stroke-dashoffset: 1200; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        .animate-draw {
+            stroke-dasharray: 1200;
+            stroke-dashoffset: 1200;
+            animation: strokeDraw 2.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* Neural Canvas Layer */
+        #neural-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.35;
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(35px) scale(0.97);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-on-scroll.revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Neural Particle Canvas -->
+    <canvas id="neural-canvas"></canvas>
+
+    <!-- Ambient Background Mesh Orbs -->
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+
+    <!-- Mobile Drawer Navigation -->
+    <div class="mobile-nav-overlay" id="mobile-nav">
+        <a href="#philosophy" class="mobile-nav-link" onclick="toggleMobileNav()">0X1 // PHILOSOPHY</a>
+        <a href="#stack" class="mobile-nav-link" onclick="toggleMobileNav()">0X2 // STACK</a>
+        <a href="#projects" class="mobile-nav-link" onclick="toggleMobileNav()">0X3 // SYSTEMS</a>
+        <a href="#timeline" class="mobile-nav-link" onclick="toggleMobileNav()">0X4 // TIMELINE</a>
+        <a href="#connect" class="mobile-nav-link" onclick="toggleMobileNav()">0X5 // CONNECT</a>
+    </div>
+
+    <!-- Top System HUD Bar -->
+    <header class="hud-bar">
+        <div class="container hud-content">
+            <a href="#" class="brand-logo">
+                <span>[DS]</span> ABHI_THUMAR
+            </a>
+            
+            <div class="hud-metrics">
+                <div class="hud-stat">
+                    <span>CPU:</span> <span class="hud-stat-val">38%</span>
+                </div>
+                <div class="hud-stat">
+                    <span>DB:</span> <span class="hud-stat-val" style="color: var(--emerald-accent);">ONLINE</span>
+                </div>
+                <div class="hud-stat" style="display: none; min-width: 140px;">
+                    <span>LOC:</span> <span class="hud-stat-val">COVENTRY, UK</span>
+                </div>
+            </div>
+
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#philosophy" class="nav-link">0X1 // PHILOSOPHY</a></li>
+                    <li><a href="#stack" class="nav-link">0X2 // STACK</a></li>
+                    <li><a href="#projects" class="nav-link">0X3 // SYSTEMS</a></li>
+                    <li><a href="#timeline" class="nav-link">0X4 // TIMELINE</a></li>
+                    <li><a href="#connect" class="nav-link">0X5 // CONNECT</a></li>
+                </ul>
+            </nav>
+
+            <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Toggle Navigation">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-left">
+                <div class="hero-tag">
+                    <div class="badge">
+                        <span class="badge-dot"></span>
+                        AVAILABLE FOR DATA SCIENCE & ML ROLES
+                    </div>
+                </div>
+                
+                <h1 class="hero-title">
+                    Engineering <span class="text-gradient">Intelligence.</span><br>
+                    Architecting Data.
+                </h1>
+                
+                <p class="hero-desc">
+                    <strong>MSc Data Science candidate at Coventry University</strong> & BTech ICT graduate from DAIICT. 
+                    Specialized in end-to-end machine learning pipelines, big data analytics (<strong>PySpark, 3M+ records</strong>), 
+                    class imbalance resolution (<strong>SMOTE</strong>), and explainable AI (<strong>SHAP</strong>).
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#projects" class="btn btn-primary">
+                        <span>View Systems</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="#connect" class="btn btn-outline">
+                        Get in Touch
+                    </a>
+                    <a href="https://github.com/AbhiThumar" target="_blank" class="btn-icon" title="GitHub Profile">
+                        <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </a>
+                    <a href="https://linkedin.com/in/abhi-thumar" target="_blank" class="btn-icon" title="LinkedIn Profile">
+                        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-right">
+                <div class="terminal-card">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="terminal-dot dot-red"></span>
+                            <span class="terminal-dot dot-yellow"></span>
+                            <span class="terminal-dot dot-green"></span>
+                        </div>
+                        <div class="terminal-title">[DS] SYSTEM // ABHI THUMAR</div>
+                    </div>
+                    <div class="terminal-body" id="terminal-body">
+                        <div class="t-line">
+                            <span class="t-prompt">abhi@system:~$</span>
+                            <span class="t-cmd">initialize_kernel --user="Abhi Thumar"</span>
+                        </div>
+                        <div class="t-line">
+                            <span class="t-res t-accent">[STATUS] MSc Data Science Candidate (Coventry University, UK)</span>
+                        </div>
+                        <div class="t-line">
+                            <span class="t-res t-accent">[STATUS] BTech Information & Communication Tech (DAIICT)</span>
+                        </div>
+                        <div class="t-line">
+                            <span class="t-prompt">abhi@system:~$</span>
+                            <span class="t-cmd" id="terminal-typing"></span>
+                        </div>
+                    </div>
+                    <div class="terminal-input-row">
+                        <span class="t-prompt">$</span>
+                        <input type="text" id="terminal-cmd-input" class="terminal-input" placeholder="Type 'help', 'projects', 'skills', or 'clear'..." />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module 0X1 - Philosophy & Impact -->
+    <section id="philosophy" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-module-tag">MODULE // 0X1</span>
+                <h2 class="section-title">Technical Philosophy & Live Performance</h2>
+                <p class="section-subtitle">Bridging rigorous statistical modeling, scalable big data engineering, and production ML pipelines.</p>
+            </div>
+
+            <div class="philosophy-grid">
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h3 class="card-title">Data Science & Predictive ML</h3>
+                    <p class="card-desc">
+                        Constructing reproducible machine learning architectures for high-dimensional, imbalanced real-world datasets. Specialization in XGBoost, PySpark, SMOTE, and SHAP explainability.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6z"/><path d="M4 10h16M10 4v16"/></svg>
+                    </div>
+                    <h3 class="card-title">Data Engineering & Scalable Pipelines</h3>
+                    <p class="card-desc">
+                        Architecting distributed ETL pipelines, SQL data warehouses (BigQuery, PostgreSQL), and PySpark processing engines for 3M+ record datasets. Focused on data quality QA/QC, schema design, and cloud analytics.
+                    </p>
+                </div>
+            </div>
+
+            <!-- SVG Interactive Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-header-left">
+                        <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--text-main);">Model Scalability & Performance Convergence</h4>
+                        <span style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono);" id="chart-caption">
+                            Visualizing throughput & accuracy milestones across PySpark, SMOTE, & Multivariate PCA pipelines.
+                        </span>
+                    </div>
+                    <div class="chart-metrics-toggle">
+                        <button class="metric-btn active" onclick="switchChartMetric('records')">3.0M+ Records</button>
+                        <button class="metric-btn" onclick="switchChartMetric('recall')">+87.0% Recall</button>
+                        <button class="metric-btn" onclick="switchChartMetric('variance')">80%+ PCA Var</button>
+                    </div>
+                </div>
+
+                <div style="position: relative;">
+                    <svg class="chart-svg" viewBox="0 0 800 220" id="main-svg-chart">
+                        <defs>
+                            <linearGradient id="chartGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.35" />
+                                <stop offset="100%" stop-color="#00f2fe" stop-opacity="0.0" />
+                            </linearGradient>
+                            <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="4" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                        </defs>
+
+                        <!-- Guide Grid Lines -->
+                        <line x1="0" y1="180" x2="800" y2="180" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4 4" />
+                        <line x1="0" y1="120" x2="800" y2="120" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4 4" />
+                        <line x1="0" y1="60" x2="800" y2="60" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4 4" />
+
+                        <!-- Area & Curve Path -->
+                        <path id="chart-area" d="M 50 170 C 180 170, 320 145, 470 85 C 570 50, 670 30, 750 30 L 750 200 L 50 200 Z" fill="url(#chartGrad)" />
+                        <path id="chart-line" d="M 50 170 C 180 170, 320 145, 470 85 C 570 50, 670 30, 750 30" fill="none" stroke="#00f2fe" stroke-width="3.5" filter="url(#glow-cyan)" />
+
+                        <!-- Interactive Nodes aligned with Curve -->
+                        <g class="chart-node-group" onmouseover="showChartTooltip(0, event)" onmouseout="hideChartTooltip()">
+                            <line id="guide-0" x1="50" y1="170" x2="50" y2="200" stroke="rgba(0,242,254,0.3)" stroke-dasharray="2 2" />
+                            <circle id="dot-0" cx="50" cy="170" r="7" fill="#060911" stroke="#00f2fe" stroke-width="3" style="cursor: pointer; transition: all 0.2s;" />
+                        </g>
+
+                        <g class="chart-node-group" onmouseover="showChartTooltip(1, event)" onmouseout="hideChartTooltip()">
+                            <line id="guide-1" x1="260" y1="145" x2="260" y2="200" stroke="rgba(0,242,254,0.3)" stroke-dasharray="2 2" />
+                            <circle id="dot-1" cx="260" cy="145" r="7" fill="#060911" stroke="#4facfe" stroke-width="3" style="cursor: pointer; transition: all 0.2s;" />
+                        </g>
+
+                        <g class="chart-node-group" onmouseover="showChartTooltip(2, event)" onmouseout="hideChartTooltip()">
+                            <line id="guide-2" x1="470" y1="85" x2="470" y2="200" stroke="rgba(0,242,254,0.3)" stroke-dasharray="2 2" />
+                            <circle id="dot-2" cx="470" cy="85" r="7" fill="#060911" stroke="#a855f7" stroke-width="3" style="cursor: pointer; transition: all 0.2s;" />
+                        </g>
+
+                        <g class="chart-node-group" onmouseover="showChartTooltip(3, event)" onmouseout="hideChartTooltip()">
+                            <line id="guide-3" x1="750" y1="30" x2="750" y2="200" stroke="rgba(0,242,254,0.3)" stroke-dasharray="2 2" />
+                            <circle id="dot-3" cx="750" cy="30" r="9" fill="#a855f7" stroke="#00f2fe" stroke-width="3" filter="url(#glow-cyan)" style="cursor: pointer; transition: all 0.2s;" />
+                        </g>
+                    </svg>
+
+                    <!-- Tooltip Card -->
+                    <div id="graph-tooltip" style="position: absolute; display: none; background: rgba(11, 16, 29, 0.95); border: 1px solid var(--cyan-accent); border-radius: 8px; padding: 10px 14px; font-family: var(--font-mono); font-size: 0.78rem; color: #fff; box-shadow: 0 10px 25px rgba(0,242,254,0.25); pointer-events: none; z-index: 50; transition: opacity 0.2s;">
+                        <div id="tooltip-title" style="color: var(--cyan-accent); font-weight: 700; margin-bottom: 2px;"></div>
+                        <div id="tooltip-val" style="color: #cbd5e1;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module 0X2 - Stack Matrix -->
+    <section id="stack" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-module-tag">MODULE // 0X2</span>
+                <h2 class="section-title">Technical Stack Matrix</h2>
+                <p class="section-subtitle">Core toolsets, frameworks, and methodologies across Data Engineering, ML, and Analytics.</p>
+            </div>
+
+            <div class="stack-filters">
+                <button class="metric-btn active" onclick="filterStack('all')">ALL STACK</button>
+                <button class="metric-btn" onclick="filterStack('ds')">DATA SCIENCE & ML</button>
+                <button class="metric-btn" onclick="filterStack('eng')">DATA ENG & SQL</button>
+                <button class="metric-btn" onclick="filterStack('viz')">VIZ & UX</button>
+                <button class="metric-btn" onclick="filterStack('meth')">METHODOLOGIES</button>
+            </div>
+
+            <div class="stack-grid" id="stack-grid">
+                <!-- Stack cards dynamically styled -->
+                <div class="stack-item" data-cat="ds">
+                    <div class="stack-icon-pill pill-ds">PY</div>
+                    <div class="stack-info">
+                        <h4>Python & Scikit-Learn</h4>
+                        <p>XGBoost, Random Forest, Pandas, NumPy</p>
+                    </div>
+                </div>
+
+                <div class="stack-item" data-cat="ds">
+                    <div class="stack-icon-pill pill-ds">SP</div>
+                    <div class="stack-info">
+                        <h4>PySpark Big Data</h4>
+                        <p>Large-scale distributed ML (2.99M+ rows)</p>
+                    </div>
+                </div>
+
+                <div class="stack-item" data-cat="ds">
+                    <div class="stack-icon-pill pill-ds">SH</div>
+                    <div class="stack-info">
+                        <h4>SHAP & SMOTE</h4>
+                        <p>Model Explainability & Class Imbalance</p>
+                    </div>
+                </div>
+
+                <div class="stack-item" data-cat="eng">
+                    <div class="stack-icon-pill pill-eng">SQL</div>
+                    <div class="stack-info">
+                        <h4>SQL & BigQuery</h4>
+                        <p>Google BigQuery, PostgreSQL, MySQL</p>
+                    </div>
+                </div>
+
+                <div class="stack-item" data-cat="eng">
+                    <div class="stack-icon-pill pill-eng">R</div>
+                    <div class="stack-info">
+                        <h4>R & Tidyverse</h4>
+                        <p>PCA, Hierarchical Clustering, Stats</p>
+                    </div>
+                </div>
+
+                <div class="stack-item" data-cat="viz">
+                    <div class="stack-icon-pill pill-viz">TAB</div>
+                    <div class="stack-info">
+                        <h4>Tableau Analytics</h4>
+                        <p>Interactive Business Intelligence Dashboards</p>
+                    </div>
+                </div>
+
+                <div class="stack-item" data-cat="viz">
+                    <div class="stack-icon-pill pill-viz">FIG</div>
+                    <div class="stack-info">
+                        <h4>Figma UI/UX</h4>
+                        <p>High-fidelity interactive prototyping (35+ screens)</p>
+                    </div>
+                </div>
+
+                <div class="stack-item" data-cat="meth">
+                    <div class="stack-icon-pill pill-meth">TS</div>
+                    <div class="stack-info">
+                        <h4>Time-Series (ARIMA/SARIMAX)</h4>
+                        <p>Forward-looking trend forecasting (90%+ Acc)</p>
+                    </div>
+                </div>
+
+                <div class="stack-item" data-cat="meth">
+                    <div class="stack-icon-pill pill-meth">ETH</div>
+                    <div class="stack-info">
+                        <h4>Algorithmic Fairness</h4>
+                        <p>Demographic parity & ethical AI evaluation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module 0X3 - Production Systems (Projects) -->
+    <section id="projects" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-module-tag">MODULE // 0X3</span>
+                <h2 class="section-title">Production Systems & Case Studies</h2>
+                <p class="section-subtitle">Featured end-to-end data science projects, research pipelines, and predictive models.</p>
+            </div>
+
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div>
+                        <div class="project-meta">
+                            <span class="badge">MACHINE LEARNING</span>
+                            <span class="project-date">AUG 2026</span>
+                        </div>
+                        <h3 class="project-title">IBM Employee Attrition & Explainable AI</h3>
+                        <p class="project-summary">
+                            End-to-end ML pipeline benchmarking Random Forest and XGBoost classifiers on IBM HR analytics data. Applied SMOTE oversampling to eliminate extreme class imbalance and SHAP for feature explainability.
+                        </p>
+                        <div class="project-impact-box">
+                            ⚡ IMPACT: Boosted minority class recall & validated demographic algorithmic fairness.
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">XGBoost</span>
+                            <span class="tag">SMOTE</span>
+                            <span class="tag">SHAP</span>
+                            <span class="tag">Scikit-Learn</span>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <a href="https://github.com/AbhiThumar/IBM-Employee-attrition-prediction" target="_blank" class="link-text">
+                            <span>GitHub Code Repository</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                        </a>
+                        <button class="copy-btn" onclick="openProjectModal('ibm')">View Specs</button>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div>
+                        <div class="project-meta">
+                            <span class="badge" style="border-color: rgba(79, 172, 254, 0.4); color: var(--blue-accent);">BIG DATA ML</span>
+                            <span class="project-date">FEB 2026 – MAR 2026</span>
+                        </div>
+                        <h3 class="project-title">BRFSS Health Risk Prediction Pipeline</h3>
+                        <p class="project-summary">
+                            PySpark distributed big data pipeline processing 2.99M+ CDC behavioral survey records across 27 features. Evaluated GBDT and Random Forest models with SMOTE sampling and Tableau BI dashboards.
+                        </p>
+                        <div class="project-impact-box">
+                            ⚡ IMPACT: 2.99M+ Records | 86.95% Accuracy | +87% At-Risk Recall Boost
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">PySpark</span>
+                            <span class="tag">Big Data</span>
+                            <span class="tag">SMOTE</span>
+                            <span class="tag">Tableau</span>
+                            <span class="tag">Scikit-Learn</span>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <a href="https://github.com/AbhiThumar/BRFSS-Depression-Prediction-ML" target="_blank" class="link-text">
+                            <span>GitHub Code Repository</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                        </a>
+                        <button class="copy-btn" onclick="openProjectModal('brfss')">View Specs</button>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div>
+                        <div class="project-meta">
+                            <span class="badge" style="border-color: rgba(168, 85, 247, 0.4); color: var(--violet-accent);">STATS & R</span>
+                            <span class="project-date">NOV 2025 – DEC 2025</span>
+                        </div>
+                        <h3 class="project-title">Multivariate Analysis of UK Deprivation (IMD 2025)</h3>
+                        <p class="project-summary">
+                            Multivariate statistical modeling on the 2025 English Indices of Multiple Deprivation dataset. Deployed Principal Component Analysis (PCA) and Hierarchical Clustering to evaluate regional inequality.
+                        </p>
+                        <div class="project-impact-box">
+                            ⚡ IMPACT: Captured 80%+ dataset variance across English local authority districts.
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">R</span>
+                            <span class="tag">Tidyverse</span>
+                            <span class="tag">PCA</span>
+                            <span class="tag">Hierarchical Clustering</span>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <a href="https://github.com/AbhiThumar/Multivariate-Analysis-of-UK-Deprivation-IMD-2025" target="_blank" class="link-text">
+                            <span>GitHub Code Repository</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                        </a>
+                        <button class="copy-btn" onclick="openProjectModal('imd')">View Specs</button>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div>
+                        <div class="project-meta">
+                            <span class="badge" style="border-color: rgba(16, 185, 129, 0.4); color: var(--emerald-accent);">TIME-SERIES</span>
+                            <span class="project-date">FEB 2024 – MAY 2024</span>
+                        </div>
+                        <h3 class="project-title">Air Quality Time Series Forecasting</h3>
+                        <p class="project-summary">
+                            Environmental analytics platform modeling atmospheric pollutant concentrations. Implemented ARIMA and SARIMAX architectures for 12-month forward-looking environmental reporting.
+                        </p>
+                        <div class="project-impact-box">
+                            ⚡ IMPACT: 90%+ Accuracy in 12-month forward pollutant trend forecasts.
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">ARIMA</span>
+                            <span class="tag">SARIMAX</span>
+                            <span class="tag">Time Series</span>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <span class="link-text" style="color: var(--text-dim);">Academic Research Project</span>
+                        <button class="copy-btn" onclick="openProjectModal('air')">View Specs</button>
+                    </div>
+                </div>
+
+                <!-- Project 5 (Extra - Real GitHub Repo) -->
+                <div class="project-card project-card-extra" style="display: none;">
+                    <div>
+                        <div class="project-meta">
+                            <span class="badge" style="border-color: rgba(245, 158, 11, 0.4); color: var(--amber-accent);">EMBEDDED & IOT</span>
+                            <span class="project-date">SEP 2025</span>
+                        </div>
+                        <h3 class="project-title">Accident Alert & Fall Detection System (GSM)</h3>
+                        <p class="project-summary">
+                            Hardware-software embedded system detecting physical falls and impact collisions using accelerometer sensor data streams and executing automated emergency GSM SMS alerts.
+                        </p>
+                        <div class="project-impact-box">
+                            ⚡ IMPACT: Real-time accelerometer anomaly detection & automated emergency GSM dispatch.
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">C++</span>
+                            <span class="tag">Arduino</span>
+                            <span class="tag">GSM Module</span>
+                            <span class="tag">Accelerometers</span>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <a href="https://github.com/AbhiThumar/Accident-Alert-GSM" target="_blank" class="link-text">
+                            <span>GitHub Code Repository</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                        </a>
+                        <button class="copy-btn" onclick="openProjectModal('gsm')">View Specs</button>
+                    </div>
+                </div>
+
+                <!-- Project 6 (Extra - Real GitHub Repo) -->
+                <div class="project-card project-card-extra" style="display: none;">
+                    <div>
+                        <div class="project-meta">
+                            <span class="badge" style="border-color: rgba(168, 85, 247, 0.4); color: var(--violet-accent);">AI SYSTEMS</span>
+                            <span class="project-date">AUG 2025</span>
+                        </div>
+                        <h3 class="project-title">Conversational AI Voice Assistant Feature Architecture</h3>
+                        <p class="project-summary">
+                            Architected feature extensions and intent recognition workflows for mobile conversational voice assistants, streamlining daily voice interactions and user task automation.
+                        </p>
+                        <div class="project-impact-box">
+                            ⚡ IMPACT: Conversational intent mapping & human-AI interaction workflows.
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Conversational AI</span>
+                            <span class="tag">Voice Assistants</span>
+                            <span class="tag">Intent Architecture</span>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <a href="https://github.com/AbhiThumar/Conversational-Agent-Features-design" target="_blank" class="link-text">
+                            <span>GitHub Code Repository</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                        </a>
+                        <button class="copy-btn" onclick="openProjectModal('voice')">View Specs</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View More Button -->
+            <div style="text-align: center; margin-top: 36px;">
+                <button class="btn btn-outline" id="toggle-projects-btn" onclick="toggleMoreProjects()">
+                    <span>View Additional Projects (+2)</span>
+                    <svg id="toggle-projects-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition: transform 0.3s;"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module 0X4 - Growth Timeline -->
+    <section id="timeline" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-module-tag">MODULE // 0X4</span>
+                <h2 class="section-title">Growth Timeline & Education</h2>
+                <p class="section-subtitle">Academic qualifications, research fellowships, and professional experience.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-date">SEP 2025 – SEP 2026</div>
+                    <h3 class="timeline-role">MSc in Data Science</h3>
+                    <p class="timeline-org">Coventry University | Coventry, United Kingdom</p>
+                    <ul class="timeline-bullets">
+                        <li>Advanced Machine Learning, Big Data Analytics with PySpark, Multivariate Statistics.</li>
+                        <li>Focus on Explainable AI (SHAP), SMOTE class imbalance, and automated ML pipelines.</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-date">JAN 2025 – MAY 2025</div>
+                    <h3 class="timeline-role">Summer Research Intern</h3>
+                    <p class="timeline-org">Dhirubhai Ambani Institute of ICT (DAIICT) | Gandhinagar, India</p>
+                    <ul class="timeline-bullets">
+                        <li>Executed statistical analysis on complex academic datasets to derive quantitative research insights.</li>
+                        <li>Engineered structured experimental frameworks for analytics reproducibility and dataset compliance.</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-date">MAY 2024 – JUL 2024</div>
+                    <h3 class="timeline-role">UI/UX & Product Intern</h3>
+                    <p class="timeline-org">ROEX Design | Rajkot, India</p>
+                    <ul class="timeline-bullets">
+                        <li>Designed 35+ high-fidelity screens and interactive Figma prototypes, improving user journey efficiency by 92%.</li>
+                        <li>Streamlined product workflows across cross-functional engineering and design teams.</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-date">DEC 2022 – JAN 2023</div>
+                    <h3 class="timeline-role">Field Research & Analytics Intern</h3>
+                    <p class="timeline-org">RUCHI NGO | Shimla, India</p>
+                    <ul class="timeline-bullets">
+                        <li>Led field research across 14 rural communities, surveying 200+ households to quantify socio-economic metrics.</li>
+                        <li>Organized 4 interactive IT literacy and resource management workshops for 100+ participants.</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-date">AUG 2021 – MAY 2025</div>
+                    <h3 class="timeline-role">BTech in Information & Communication Technology</h3>
+                    <p class="timeline-org">DAIICT | Gandhinagar, India</p>
+                    <ul class="timeline-bullets">
+                        <li>Core focus on Data Structures, Database Systems (SQL), Python Programming, and Analytics.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <h4 class="cert-title">IBM Professional Certifications</h4>
+                    <p class="cert-issuer">Databases & SQL, Data Science Methodology, Python for DS & AI</p>
+                </div>
+
+                <div class="cert-card">
+                    <h4 class="cert-title">Google Data Analytics</h4>
+                    <p class="cert-issuer">Foundations: Data, Data Everywhere | Data-Driven Decisions</p>
+                </div>
+
+                <div class="cert-card">
+                    <h4 class="cert-title">Industry Job Simulations</h4>
+                    <p class="cert-issuer">Data Science (British Airways, BCG) | Analytics (Deloitte Australia)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module 0X5 - Connect -->
+    <section id="connect" class="section">
+        <div class="container">
+            <div class="connect-box">
+                <span class="section-module-tag">MODULE // 0X5</span>
+                <h2 class="section-title" style="font-size: 2.5rem; margin-bottom: 12px;">Ready to Architect Data Systems?</h2>
+                <p class="section-subtitle" style="margin: 0 auto;">Open for Data Science, Machine Learning Engineering, and Data Analytics roles.</p>
+                
+                <div class="connect-email-bar">
+                    <span id="email-text">abhi.thumar@gmail.com</span>
+                    <button class="copy-btn" onclick="copyEmail()">Copy Email</button>
+                </div>
+
+                <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                    <a href="mailto:abhi.thumar@gmail.com" class="btn btn-primary">Direct Mail</a>
+                    <a href="https://linkedin.com/in/abhi-thumar" target="_blank" class="btn btn-outline">LinkedIn Profile</a>
+                    <a href="https://github.com/AbhiThumar" target="_blank" class="btn btn-outline">GitHub Repositories</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Specs Modal -->
+    <div class="modal-overlay" id="project-modal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeProjectModal()">&times;</button>
+            <div id="modal-content">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Email address copied to clipboard!</div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 ABHI THUMAR // DATA SCIENCE & MACHINE LEARNING PORTFOLIO</p>
+            <p style="margin-top: 6px; color: var(--text-muted);">Built with Vanilla HTML5, CSS3, & JS — System Architecture v2.5</p>
+        </div>
+    </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        // Terminal Simulation & Command Processor
+        const termInput = document.getElementById('terminal-cmd-input');
+        const termBody = document.getElementById('terminal-body');
+
+        termInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const cmd = this.value.trim().toLowerCase();
+                this.value = '';
+                if (!cmd) return;
+
+                appendTermLine('abhi@system:~$', cmd, 't-cmd');
+
+                if (cmd === 'help') {
+                    appendTermLine('SYSTEM', 'Available commands: projects, skills, metrics, about, clear, contact', 't-accent');
+                } else if (cmd === 'projects') {
+                    appendTermLine('SYSTEM', '1. IBM Attrition Explainable AI (XGBoost/SHAP)\n2. BRFSS Health Risk Pipeline (PySpark 2.99M)\n3. UK Deprivation IMD 2025 (R PCA)\n4. Air Quality Time Series (SARIMAX)', 't-success');
+                } else if (cmd === 'skills') {
+                    appendTermLine('SYSTEM', 'Python, PySpark, XGBoost, SHAP, SMOTE, SQL (BigQuery), R, Tableau, Figma UI/UX', 't-purple');
+                } else if (cmd === 'metrics') {
+                    appendTermLine('SYSTEM', '2.99M+ Records Processed | +87% Recall Boost | 92% UX Efficiency Increase', 't-warn');
+                } else if (cmd === 'about') {
+                    appendTermLine('SYSTEM', 'Abhi Thumar: MSc Data Science (Coventry University), BTech ICT (DAIICT).', 't-res');
+                } else if (cmd === 'clear') {
+                    termBody.innerHTML = '';
+                } else if (cmd === 'contact') {
+                    appendTermLine('SYSTEM', 'Email: abhi.thumar@gmail.com | Phone: +44 7799878356', 't-accent');
+                } else {
+                    appendTermLine('SYSTEM', `Command not recognized: '${cmd}'. Type 'help' for options.`, 't-warn');
+                }
+
+                termBody.scrollTop = termBody.scrollHeight;
+            }
+        });
+
+        function appendTermLine(prompt, text, cssClass) {
+            const line = document.createElement('div');
+            line.className = 't-line';
+            line.innerHTML = `<span class="t-prompt">${prompt}</span> <span class="${cssClass}">${text.replace(/\n/g, '<br>')}</span>`;
+            termBody.appendChild(line);
+        }
+
+        // Stack Filter Logic
+        function filterStack(category) {
+            const items = document.querySelectorAll('.stack-item');
+            const buttons = document.querySelectorAll('.stack-filters .metric-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-cat') === category) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // SVG Chart Metric Switcher & Dynamic Tooltips
+        const chartPointData = {
+            records: [
+                { title: "Stage 1: Raw Data Ingestion", val: "Baseline ingestion of 50K raw CDC survey samples" },
+                { title: "Stage 2: Schema Design & ETL", val: "Cleaned 27 behavioral features & null variance checks" },
+                { title: "Stage 3: PySpark Scaling", val: "Scaled processing up to 2,992,540 total records" },
+                { title: "Stage 4: Big Data ML Peak", val: "86.95% GBDT model accuracy on 2.99M+ rows" }
+            ],
+            recall: [
+                { title: "Stage 1: Baseline Class Bias", val: "Severe class imbalance: minority recall at 42%" },
+                { title: "Stage 2: Resampling Optimization", val: "SMOTE k-neighbors oversampling applied" },
+                { title: "Stage 3: Random Forest Benchmark", val: "Minority recall increased to 74%" },
+                { title: "Stage 4: Optimal Recall Peak", val: "+87.0% Minority class recall boost achieved" }
+            ],
+            variance: [
+                { title: "Stage 1: Raw Indicators", val: "High-dimensional IMD deprivation variables" },
+                { title: "Stage 2: Covariance Matrix", val: "Standardized scaling across 300+ districts" },
+                { title: "Stage 3: Component Extraction", val: "Primary Eigenvectors capturing key variance" },
+                { title: "Stage 4: Cumulative Variance Peak", val: "80.4% Dataset variance captured in PC1 & PC2" }
+            ]
+        };
+
+        let currentMetricMode = 'records';
+
+        function switchChartMetric(metric) {
+            currentMetricMode = metric;
+            const path = document.getElementById('chart-area');
+            const line = document.getElementById('chart-line');
+            const caption = document.getElementById('chart-caption');
+            const btns = document.querySelectorAll('.chart-metrics-toggle .metric-btn');
+
+            btns.forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const dots = [
+                document.getElementById('dot-0'),
+                document.getElementById('dot-1'),
+                document.getElementById('dot-2'),
+                document.getElementById('dot-3')
+            ];
+            const guides = [
+                document.getElementById('guide-0'),
+                document.getElementById('guide-1'),
+                document.getElementById('guide-2'),
+                document.getElementById('guide-3')
+            ];
+
+            if (metric === 'records') {
+                line.setAttribute('d', 'M 50 170 C 180 170, 320 145, 470 85 C 570 50, 670 30, 750 30');
+                path.setAttribute('d', 'M 50 170 C 180 170, 320 145, 470 85 C 570 50, 670 30, 750 30 L 750 200 L 50 200 Z');
+                caption.innerText = "Visualizing throughput & accuracy milestones across PySpark, SMOTE, & Multivariate PCA pipelines.";
+                
+                dots[0].setAttribute('cy', '170'); guides[0].setAttribute('y1', '170');
+                dots[1].setAttribute('cy', '145'); guides[1].setAttribute('y1', '145');
+                dots[2].setAttribute('cy', '85');  guides[2].setAttribute('y1', '85');
+                dots[3].setAttribute('cy', '30');  guides[3].setAttribute('y1', '30');
+            } else if (metric === 'recall') {
+                line.setAttribute('d', 'M 50 175 C 180 175, 300 158, 470 95 C 570 55, 670 25, 750 25');
+                path.setAttribute('d', 'M 50 175 C 180 175, 300 158, 470 95 C 570 55, 670 25, 750 25 L 750 200 L 50 200 Z');
+                caption.innerText = "Tracking minority class recall improvement via SMOTE synthetic oversampling.";
+                
+                dots[0].setAttribute('cy', '175'); guides[0].setAttribute('y1', '175');
+                dots[1].setAttribute('cy', '158'); guides[1].setAttribute('y1', '158');
+                dots[2].setAttribute('cy', '95');  guides[2].setAttribute('y1', '95');
+                dots[3].setAttribute('cy', '25');  guides[3].setAttribute('y1', '25');
+            } else {
+                line.setAttribute('d', 'M 50 180 C 180 180, 300 142, 470 70 C 570 35, 670 20, 750 20');
+                path.setAttribute('d', 'M 50 180 C 180 180, 300 142, 470 70 C 570 35, 670 20, 750 20 L 750 200 L 50 200 Z');
+                caption.innerText = "Measuring cumulative variance captured by Principal Component Analysis (PCA) on IMD 2025 data.";
+                
+                dots[0].setAttribute('cy', '180'); guides[0].setAttribute('y1', '180');
+                dots[1].setAttribute('cy', '142'); guides[1].setAttribute('y1', '142');
+                dots[2].setAttribute('cy', '70');  guides[2].setAttribute('y1', '70');
+                dots[3].setAttribute('cy', '20');  guides[3].setAttribute('y1', '20');
+            }
+        }
+
+        function showChartTooltip(idx, evt) {
+            const tooltip = document.getElementById('graph-tooltip');
+            const titleEl = document.getElementById('tooltip-title');
+            const valEl = document.getElementById('tooltip-val');
+            const data = chartPointData[currentMetricMode][idx];
+
+            if (!data) return;
+
+            titleEl.innerText = data.title;
+            valEl.innerText = data.val;
+
+            tooltip.style.display = 'block';
+            tooltip.style.left = (evt.offsetX - 20) + 'px';
+            tooltip.style.top = (evt.offsetY - 75) + 'px';
+
+            const dot = document.getElementById(`dot-${idx}`);
+            if (dot) {
+                dot.setAttribute('r', '11');
+            }
+        }
+
+        function hideChartTooltip() {
+            const tooltip = document.getElementById('graph-tooltip');
+            tooltip.style.display = 'none';
+
+            for (let i = 0; i < 4; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (dot) {
+                    dot.setAttribute('r', i === 3 ? '9' : '7');
+                }
+            }
+        }
+
+        // Modal Specs Viewer
+        const projectData = {
+            ibm: {
+                title: "IBM Employee Attrition & Explainable AI",
+                tech: "Python, XGBoost, Random Forest, SMOTE, SHAP, Scikit-Learn",
+                problem: "Severe class imbalance in HR attrition data masked high-risk employee turnover, leading to biased predictions in standard models.",
+                approach: "Engineered an end-to-end ML pipeline benchmarking Random Forest and XGBoost. Utilized Synthetic Minority Over-sampling Technique (SMOTE) to rebalance class distributions, and integrated SHAP (SHapley Additive exPlanations) for local/global interpretability.",
+                impact: "Drastically boosted minority class recall while maintaining high precision. Conducted demographic algorithmic fairness audits to ensure non-discriminatory predictor weights.",
+                link: "https://github.com/AbhiThumar/IBM-Employee-attrition-prediction"
+            },
+            brfss: {
+                title: "BRFSS Health Risk Prediction Pipeline",
+                tech: "PySpark, Big Data, SMOTE, Scikit-Learn, Tableau",
+                problem: "Analyzing massive public health survey datasets (CDC BRFSS: 2.99M+ records, 27 behavioral features) required scalable big data processing beyond single-node memory.",
+                approach: "Engineered a distributed PySpark ML pipeline for feature extraction and model training. Trained Gradient-Boosted Trees (GBDT) and Random Forests. Addressed sample variance with SMOTE oversampling.",
+                impact: "Achieved 86.95% model accuracy and an 87% increase in at-risk health depression recall. Designed 4 interactive Tableau dashboards for executive decision support.",
+                link: "https://github.com/AbhiThumar/BRFSS-Depression-Prediction-ML"
+            },
+            imd: {
+                title: "Multivariate Analysis of UK Deprivation (IMD 2025)",
+                tech: "R, Tidyverse, Principal Component Analysis (PCA), Hierarchical Clustering",
+                problem: "Deconstructing complex, multi-dimensional socio-economic indicators across 300+ English local authority districts to identify regional inequality drivers.",
+                approach: "Executed multivariate statistical modeling using R Tidyverse. Applied Principal Component Analysis (PCA) for dimensionality reduction and agglomerative hierarchical clustering.",
+                impact: "Captured >80% of total dataset variance in primary principal components, categorizing districts into distinct socio-economic risk clusters.",
+                link: "https://github.com/AbhiThumar/Multivariate-Analysis-of-UK-Deprivation-IMD-2025"
+            },
+            air: {
+                title: "Air Quality Time Series Forecasting",
+                tech: "Python, ARIMA, SARIMAX, Time-Series Analysis, Statsmodels",
+                problem: "Predicting seasonal atmospheric pollutant trends for forward-looking environmental compliance reporting.",
+                approach: "Performed time series decomposition, stationarity testing (ADF test), auto-correlation analysis (ACF/PACF), and grid-search parameter tuning for SARIMAX models.",
+                impact: "Achieved 90%+ prediction accuracy in 12-month forward pollutant trend forecasts.",
+                link: "#"
+            },
+            gsm: {
+                title: "Accident Alert & Fall Detection System (GSM)",
+                tech: "C++, Arduino, GSM Module, Accelerometer Sensors",
+                problem: "Detecting physical falls and high-impact collision anomalies in real time to dispatch automated emergency contact alerts.",
+                approach: "Engineered sensor data ingestion pipelines processing accelerometer tilt vectors and threshold variance. Integrated a GSM module to transmit automated emergency SMS notifications upon collision detection.",
+                impact: "Real-time accelerometer anomaly detection & automated emergency GSM dispatch system.",
+                link: "https://github.com/AbhiThumar/Accident-Alert-GSM"
+            },
+            voice: {
+                title: "Conversational AI Voice Assistant Feature Architecture",
+                tech: "Python, Conversational AI, Voice Assistants, Intent Architecture",
+                problem: "Designing feature workflows and intent recognition structures for mobile voice assistants to enhance user productivity and task automation.",
+                approach: "Architected conversational intent mapping, voice trigger workflows, and feature design specifications for daily voice interaction scenarios.",
+                impact: "Conversational intent mapping & human-AI interaction workflow design.",
+                link: "https://github.com/AbhiThumar/Conversational-Agent-Features-design"
+            }
+        };
+
+        function toggleMoreProjects() {
+            const extraCards = document.querySelectorAll('.project-card-extra');
+            const btnText = document.querySelector('#toggle-projects-btn span');
+            const icon = document.getElementById('toggle-projects-icon');
+            
+            let isHidden = extraCards[0].style.display === 'none' || extraCards[0].style.display === '';
+
+            extraCards.forEach(card => {
+                card.style.display = isHidden ? 'flex' : 'none';
+            });
+
+            if (isHidden) {
+                btnText.innerText = 'Show Featured Only';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                btnText.innerText = 'View Additional Projects (+2)';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function openProjectModal(key) {
+            const p = projectData[key];
+            if (!p) return;
+
+            const modalContent = document.getElementById('modal-content');
+            modalContent.innerHTML = `
+                <div class="badge" style="margin-bottom: 12px;">SYSTEM SPECIFICATION</div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.75rem; margin-bottom: 8px;">${p.title}</h2>
+                <p style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--cyan-accent); margin-bottom: 24px;">${p.tech}</p>
+                
+                <div style="margin-bottom: 20px;">
+                    <h4 style="font-family: var(--font-heading); color: var(--text-main); font-size: 1.05rem; margin-bottom: 6px;">Core Problem Statement</h4>
+                    <p style="color: var(--text-muted); font-size: 0.92rem;">${p.problem}</p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="font-family: var(--font-heading); color: var(--text-main); font-size: 1.05rem; margin-bottom: 6px;">Technical Approach</h4>
+                    <p style="color: var(--text-muted); font-size: 0.92rem;">${p.approach}</p>
+                </div>
+
+                <div style="margin-bottom: 28px;">
+                    <h4 style="font-family: var(--font-heading); color: var(--text-main); font-size: 1.05rem; margin-bottom: 6px;">Quantifiable Business & Model Impact</h4>
+                    <p style="color: var(--cyan-accent); font-family: var(--font-mono); font-size: 0.9rem;">${p.impact}</p>
+                </div>
+
+                ${p.link !== '#' ? `<a href="${p.link}" target="_blank" class="btn btn-primary" style="width: 100%;">Open GitHub Repository</a>` : ''}
+            `;
+
+            document.getElementById('project-modal').classList.add('active');
+        }
+
+        function closeProjectModal() {
+            document.getElementById('project-modal').classList.remove('active');
+        }
+
+        // Copy Email Toast
+        function copyEmail() {
+            const email = document.getElementById('email-text').innerText;
+            navigator.clipboard.writeText(email).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            });
+        }
+
+        // Mobile Nav Drawer Toggle
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.classList.toggle('active');
+        }
+
+        // IntersectionObserver Scroll Reveal Animations & SVG Line Draw
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    
+                    // Trigger SVG Chart Line Drawing when visible
+                    if (entry.target.id === 'main-svg-chart' || entry.target.querySelector('#main-svg-chart')) {
+                        const chartLine = document.getElementById('chart-line');
+                        if (chartLine && !chartLine.classList.contains('animate-draw')) {
+                            chartLine.classList.add('animate-draw');
+                        }
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card, .project-card, .timeline-item, .stack-item, .cert-card, .section-header, .chart-container').forEach(el => {
+            el.classList.add('reveal-on-scroll');
+            revealObserver.observe(el);
+        });
+
+        // 3D Card Perspective Tilt & Spotlight Tracker
+        document.querySelectorAll('.card, .project-card, .stack-item, .terminal-card, .connect-box').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -5;
+                const rotateY = ((x - centerX) / centerX) * 5;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+            });
+        });
+
+        // Interactive Neural Data Grid Canvas Animation
+        (function initNeuralCanvas() {
+            const canvas = document.getElementById('neural-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const particles = [];
+            const particleCount = Math.min(Math.floor(width * 0.035), 40);
+
+            let mouseX = width / 2;
+            let mouseY = height / 2;
+
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    radius: Math.random() * 1.5 + 1,
+                    color: Math.random() > 0.5 ? 'rgba(0, 242, 254, ' : 'rgba(168, 85, 247, '
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                for (let i = 0; i < particles.length; i++) {
+                    let p = particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.x < 0) p.x = width;
+                    if (p.x > width) p.x = 0;
+                    if (p.y < 0) p.y = height;
+                    if (p.y > height) p.y = 0;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color + '0.55)';
+                    ctx.fill();
+
+                    for (let j = i + 1; j < particles.length; j++) {
+                        let p2 = particles[j];
+                        let dx = p.x - p2.x;
+                        let dy = p.y - p2.y;
+                        let dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < 130) {
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            let alpha = (1 - dist / 130) * 0.16;
+                            ctx.strokeStyle = `rgba(0, 242, 254, ${alpha})`;
+                            ctx.lineWidth = 0.75;
+                            ctx.stroke();
+                        }
+                    }
+
+                    let mdx = mouseX - p.x;
+                    let mdy = mouseY - p.y;
+                    let mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+                    if (mdist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouseX, mouseY);
+                        let alpha = (1 - mdist / 150) * 0.22;
+                        ctx.strokeStyle = `rgba(168, 85, 247, ${alpha})`;
+                        ctx.lineWidth = 0.9;
+                        ctx.stroke();
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+
+        // Terminal Typing Animation Simulation
+        const typingCmds = [
+            'spark-submit brfss_ml_pipeline.py --records=2.99M',
+            'python xgboost_shap_attrition.py --smote=true',
+            'Rscript imd_pca_multivariate.R --components=2',
+            'python sarimax_air_quality.py --forecast=12m'
+        ];
+        let cmdIdx = 0, charIdx = 0, isDeleting = false;
+        const typingEl = document.getElementById('terminal-typing');
+
+        function typeLoop() {
+            if (!typingEl) return;
+            const current = typingCmds[cmdIdx];
+            if (isDeleting) {
+                typingEl.textContent = current.substring(0, charIdx--);
+            } else {
+                typingEl.textContent = current.substring(0, charIdx++);
+            }
+
+            let typeSpeed = isDeleting ? 35 : 75;
+            if (!isDeleting && charIdx === current.length + 1) {
+                typeSpeed = 1600;
+                isDeleting = true;
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                cmdIdx = (cmdIdx + 1) % typingCmds.length;
+                typeSpeed = 350;
+            }
+
+            setTimeout(typeLoop, typeSpeed);
+        }
+        typeLoop();
+    </script>
+</body>
+</html>
