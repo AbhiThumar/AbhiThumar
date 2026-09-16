@@ -27,38 +27,6 @@
 
 ---
 
-## 📂 Repository Structure
-
-```text
-.
-├── index.html        # Main interactive portfolio web page
-├── README.md         # Repository documentation
-└── .gitignore        # Git ignore rules for build scripts & binary assets
-```
-
----
-
-## 🌐 Local Setup & Development
-
-To run this portfolio locally:
-
-1. Clone or download this repository:
-   ```bash
-   git clone https://github.com/YOUR-GITHUB-USERNAME/YOUR-REPO-NAME.git
-   ```
-2. Open `index.html` in any web browser (or use VS Code Live Server).
-
----
-
-## ⚡ Deployment to GitHub Pages
-
-1. Navigate to **Settings** > **Pages** in your GitHub repository.
-2. Under **Build and deployment** > **Source**, select **Deploy from a branch**.
-3. Set **Branch** to `main` (or `master`) and folder to `/ (root)`.
-4. Click **Save**. Your site will be published live within seconds at `https://<username>.github.io/<repo-name>/`.
-
----
-
 ## 📄 License & Attribution
 
 Designed and developed by **Abhi Thumar**. All rights reserved.
