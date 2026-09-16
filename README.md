@@ -47,13 +47,4 @@ Tools & Cloud : GCP, Git/GitHub, Jupyter, VS Code, Figma
 
 ---
 
-## 📈 GitHub Statistics & Activity
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=AbhiThumar&show_icons=true&theme=tokyonight&hide_border=true&count_private=true" alt="Abhi Thumar's GitHub Stats" width="48%" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=AbhiThumar&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages" width="48%" />
-</p>
-
----
-
 📫 **Get in Touch**: Feel free to reach out via [LinkedIn](https://linkedin.com/in/abhi-thumar) or email me at `abhi.thumar@gmail.com`.
