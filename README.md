@@ -6,7 +6,7 @@
 
 ## 🌟 Live Demo
 
-👉 **[View Portfolio Live](https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPO-NAME/)**
+👉 **[View Portfolio Live](https://AbhiThumar.github.io/AbhiThumar/)**
 
 ---
 
